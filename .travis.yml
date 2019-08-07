@@ -13,7 +13,7 @@ after_success:
   - docker build -t rvettom/multi-server ./server
   - docker build -t rvettom/multi-worker ./worker
 # Login to Docker via CLI
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_IP" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 # Push images to Dockerhum
   - docker push rvettom/multi-client
   - docker push rvettom/multi-nginx
