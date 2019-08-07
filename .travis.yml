@@ -1,0 +1,22 @@
+required: sudo
+
+services:
+  - docker 
+
+before_install:
+  - docker build -t rvettom/test-suite -f ./client/Dockerfile.dev ./client 
+script:
+  - docker run -e CI=true rvettom/test-suite npm run test
+after_success:
+  - docker build -t rvettom/multi-client ./client 
+  - docker build -t rvettom/multi-nginx ./nginx
+  - docker build -t rvettom/multi-server ./server
+  - docker build -t rvettom/multi-worker ./worker
+# Login to Docker via CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_IP" --password-stdin
+# Push images to Dockerhum
+  - docker push rvettom/multi-client
+  - docker push rvettom/multi-nginx
+  - docker push rvettom/multi-server
+  - docker push rvettom/multi-worker 
+
