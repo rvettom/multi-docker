@@ -1,0 +1,37 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "rvettom/multi-client",
+            "hostname": "client",
+            "essentials": false 
+        },
+        {
+            "name": "server",
+            "image": "rvettom/multi-server",
+            "hostname": "api",
+            "essentials": false 
+        },
+        {
+            "name": "worker",
+            "image": "rvettom/multi-worker",
+            "hostname": "worker",
+            "essentials": false 
+        },
+
+        {
+            "name": "nginx",
+            "image": "rvettom/multi-worker",
+            "hostname": "nginx",
+            "essentials": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "connectionPort": 80
+                }
+            ],
+            "links": ["clinet","server"]
+        }
+    ]
+}
